@@ -1,0 +1,568 @@
+{
+	"info": {
+		"_postman_id": "7dfa7657-e567-44e1-a51e-16ab8b94ffa1",
+		"name": "jeu de tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Should generate us a token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"token\", pm.response.json().token);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/login_check",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"login_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Should create a visiteur",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"username\", pm.response.json().username);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/visiteurs",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"visiteurs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Should not create a visiteurs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{username}}\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/visiteurs",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"visiteurs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should create a praticien",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"lastPraticien\", pm.response.json()['id']);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"praNom\": \"{{$randomLastName}}\",\r\n    \"praPrenom\": \"{{$randomFirstName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/praticiens",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"praticiens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should create a motif",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"lastMotif\", pm.response.json()['id']);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"motLibelle\": \"motif de test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/motifs",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"motifs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should create a visite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"lastVisite\", pm.response.json()['id']);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"vstDateVisite\": \"2021-11-31\",\r\n  \"vstCommentaire\": \"test du futur\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/visites",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"visites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should edit a praticien",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							" \r",
+							"pm.test(\"Update praticien\", function() {\r",
+							"    pm.expect(pm.response.json()['praNom']).to.eql(\"Frigidère\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"praNom\": \"Frigidère\",\r\n    \"praPrenom\": \"Baptiste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/praticiens/{{lastPraticien}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"praticiens",
+						"{{lastPraticien}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should edit a motif",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							" \r",
+							"pm.test(\"Update motif\", function() {\r",
+							"    pm.expect(pm.response.json()['motLibelle']).to.eql(\"modif motif de test\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"motLibelle\": \"modif motif de test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/motifs/{{lastMotif}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"motifs",
+						"{{lastMotif}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should edit a visite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							" \r",
+							"pm.test(\"Update visite\", function() {\r",
+							"    pm.expect(pm.response.json()['vstCommentaire']).to.eql(\"modif test du futur\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"vstDateVisite\": \"2021-12-13\",\r\n  \"vstCommentaire\": \"modif test du futur\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/visites/{{lastVisite}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"visites",
+						"{{lastVisite}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should remove a praticien",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/praticiens/{{lastPraticien}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"praticiens",
+						"{{lastPraticien}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should remove a motif",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/motifs/{{lastMotif}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"motifs",
+						"{{lastMotif}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should remove a visite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/visites/{{lastVisite}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"visites",
+						"{{lastVisite}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
