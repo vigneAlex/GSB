@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Praticiens index{% endblock %}
+
+{% block body %}
+    <h1>Praticiens index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pra_nom</th>
+                <th>Pra_prenom</th>
+                <th>Pra_tel</th>
+                <th>Pra_mail</th>
+                <th>Pra_rue</th>
+                <th>Pra_codePostal</th>
+                <th>Pra_ville</th>
+                <th>Pra_coefNotoriete</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for praticien in praticiens %}
+            <tr>
+                <td>{{ praticien.id }}</td>
+                <td>{{ praticien.praNom }}</td>
+                <td>{{ praticien.praPrenom }}</td>
+                <td>{{ praticien.praTel }}</td>
+                <td>{{ praticien.praMail }}</td>
+                <td>{{ praticien.praRue }}</td>
+                <td>{{ praticien.praCodePostal }}</td>
+                <td>{{ praticien.praVille }}</td>
+                <td>{{ praticien.praCoefNotoriete }}</td>
+                <td>
+                    <a href="{{ path('praticiens_show', {'id': praticien.id}) }}">show</a>
+                    <a href="{{ path('praticiens_edit', {'id': praticien.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('praticiens_new') }}">Create new</a>
+{% endblock %}

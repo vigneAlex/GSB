@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Visiteurs{% endblock %}
+
+{% block body %}
+    <h1>Visiteurs</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ visiteur.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ visiteur.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ visiteur.roles ? visiteur.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ visiteur.password }}</td>
+            </tr>
+            <tr>
+                <th>Vis_nom</th>
+                <td>{{ visiteur.visNom }}</td>
+            </tr>
+            <tr>
+                <th>Vis_prenom</th>
+                <td>{{ visiteur.visPrenom }}</td>
+            </tr>
+            <tr>
+                <th>Vis_tel</th>
+                <td>{{ visiteur.visTel }}</td>
+            </tr>
+            <tr>
+                <th>Vis_dateEmbauche</th>
+                <td>{{ visiteur.visDateEmbauche }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('visiteurs_index') }}">back to list</a>
+
+    <a href="{{ path('visiteurs_edit', {'id': visiteur.id}) }}">edit</a>
+
+    {{ include('visiteurs/_delete_form.html.twig') }}
+{% endblock %}

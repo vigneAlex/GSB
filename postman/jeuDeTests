@@ -6,47 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "Should generate us a token",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.environment.set(\"token\", pm.response.json().token);\r",
-							" \r",
-							"pm.test(\"Status test\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"password\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/login_check",
-					"host": [
-						"{{url}}api"
-					],
-					"path": [
-						"login_check"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Should create a visiteur",
 			"event": [
 				{
@@ -54,6 +13,7 @@
 					"script": {
 						"exec": [
 							"pm.environment.set(\"username\", pm.response.json().username);\r",
+							"pm.environment.set(\"lastVisiteur\", pm.response.json()['id']);\r",
 							" \r",
 							"pm.test(\"Status test\", function () {\r",
 							"    pm.response.to.have.status(201);\r",
@@ -127,6 +87,47 @@
 			"response": []
 		},
 		{
+			"name": "Should generate us a token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"token\", pm.response.json().token);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/login_check",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"login_check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "should create a praticien",
 			"event": [
 				{
@@ -158,7 +159,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"praNom\": \"{{$randomLastName}}\",\r\n    \"praPrenom\": \"{{$randomFirstName}}\"\r\n}",
+					"raw": "{\r\n    \"praNom\": \"{{$randomLastName}}\",\r\n    \"praPrenom\": \"{{$randomFirstName}}\",\r\n    \"praTel\": \"{{$randomPhoneNumber}}\",\r\n    \"praMail\": \"{{$randomEmail}}\",\r\n    \"praRue\": \"{{$randomStreetAddress}}\",\r\n    \"praCodePostal\": \"74000\",\r\n    \"praVille\": \"{{$randomCity}}\",\r\n    \"praCoefNotoriete\": 0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -172,108 +173,6 @@
 					],
 					"path": [
 						"praticiens"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "should create a motif",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.environment.set(\"lastMotif\", pm.response.json()['id']);\r",
-							" \r",
-							"pm.test(\"Status test\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"motLibelle\": \"motif de test\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/motifs",
-					"host": [
-						"{{url}}api"
-					],
-					"path": [
-						"motifs"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "should create a visite",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.environment.set(\"lastVisite\", pm.response.json()['id']);\r",
-							" \r",
-							"pm.test(\"Status test\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"vstDateVisite\": \"2021-11-31\",\r\n  \"vstCommentaire\": \"test du futur\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}api/visites",
-					"host": [
-						"{{url}}api"
-					],
-					"path": [
-						"visites"
 					]
 				}
 			},
@@ -334,6 +233,98 @@
 			"response": []
 		},
 		{
+			"name": "should remove a praticien",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/praticiens/{{lastPraticien}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"praticiens",
+						"{{lastPraticien}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should create a motif",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"lastMotif\", pm.response.json()['id']);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"motLibelle\": \"motif de test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/motifs",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"motifs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "should edit a motif",
 			"event": [
 				{
@@ -388,6 +379,98 @@
 			"response": []
 		},
 		{
+			"name": "should remove a motif",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/motifs/{{lastMotif}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"motifs",
+						"{{lastMotif}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "should create a visite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"lastVisite\", pm.response.json()['id']);\r",
+							" \r",
+							"pm.test(\"Status test\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"vstDateVisite\": \"2021-11-29\",\r\n  \"vstCommentaire\": \"testtt\",\r\n  \"vstPraticien\": \"api/visites/{{lastPraticien}}\",\r\n  \"vstMotif\": \"api/visites/{{lastMotif}}\",\r\n  \"vstVisiteur\": \"api/visites/{{lastVisiteur}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/visites",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"visites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "should edit a visite",
 			"event": [
 				{
@@ -436,88 +519,6 @@
 					"path": [
 						"visites",
 						"{{lastVisite}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "should remove a praticien",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status test\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{url}}api/praticiens/{{lastPraticien}}",
-					"host": [
-						"{{url}}api"
-					],
-					"path": [
-						"praticiens",
-						"{{lastPraticien}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "should remove a motif",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status test\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{url}}api/motifs/{{lastMotif}}",
-					"host": [
-						"{{url}}api"
-					],
-					"path": [
-						"motifs",
-						"{{lastMotif}}"
 					]
 				}
 			},

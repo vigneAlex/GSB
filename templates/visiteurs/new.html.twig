@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Visiteurs{% endblock %}
+
+{% block body %}
+    <h1>Create new Visiteurs</h1>
+
+    {{ include('visiteurs/_form.html.twig') }}
+
+    <a href="{{ path('visiteurs_index') }}">back to list</a>
+{% endblock %}
