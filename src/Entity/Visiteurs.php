@@ -64,9 +64,15 @@ class Visiteurs implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $vis_visites;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Praticiens::class)
+     */
+    private $vis_praticiens;
+
     public function __construct()
     {
         $this->vis_visites = new ArrayCollection();
+        $this->vis_praticiens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,6 +238,30 @@ class Visiteurs implements UserInterface, PasswordAuthenticatedUserInterface
                 $visVisite->setVstVisiteur(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Praticiens[]
+     */
+    public function getVisPraticiens(): Collection
+    {
+        return $this->vis_praticiens;
+    }
+
+    public function addVisPraticien(Praticiens $visPraticien): self
+    {
+        if (!$this->vis_praticiens->contains($visPraticien)) {
+            $this->vis_praticiens[] = $visPraticien;
+        }
+
+        return $this;
+    }
+
+    public function removeVisPraticien(Praticiens $visPraticien): self
+    {
+        $this->vis_praticiens->removeElement($visPraticien);
 
         return $this;
     }
